@@ -1,0 +1,1074 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VOLTEX | Tecnologia sem limites</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --ink: #111211;
+        --muted: #686b68;
+        --line: #dedfdb;
+        --paper: #f4f4f1;
+        --white: #ffffff;
+        --red: #ee3235;
+        --yellow: #f3c934;
+        --blue: #3375e0;
+        --green: #5bbf7b;
+        --radius: 28px;
+        color: var(--ink);
+        font-family: "DM Sans", sans-serif;
+        font-synthesis: none;
+        scroll-behavior: smooth;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        background: var(--white);
+        overflow-x: hidden;
+      }
+
+      button, input, select { font: inherit; }
+      button, a { -webkit-tap-highlight-color: transparent; }
+      button { cursor: pointer; }
+      a { color: inherit; text-decoration: none; }
+      img { display: block; max-width: 100%; }
+
+      .announcement {
+        height: 34px;
+        padding: 0 clamp(18px, 4vw, 64px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--ink);
+        color: #cfd0cc;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .announcement-center { color: var(--white); font-weight: 600; }
+
+      .site-header {
+        height: 82px;
+        padding: 0 clamp(18px, 4vw, 64px);
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.93);
+        border-bottom: 1px solid rgba(222, 223, 219, 0.7);
+        backdrop-filter: blur(14px);
+      }
+
+      .logo {
+        width: max-content;
+        font-family: "Manrope", sans-serif;
+        font-weight: 800;
+        font-size: 24px;
+        letter-spacing: -0.06em;
+      }
+
+      .logo span { color: var(--red); }
+
+      .desktop-nav {
+        display: flex;
+        align-items: center;
+        gap: clamp(20px, 2.5vw, 42px);
+      }
+
+      .desktop-nav a {
+        position: relative;
+        color: #353735;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .header-actions { justify-self: end; display: flex; gap: 6px; }
+
+      .icon-button {
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border: 0;
+        border-radius: 50%;
+        color: var(--ink);
+        background: transparent;
+        transition: background 0.2s ease;
+      }
+
+      .icon-button:hover { background: var(--paper); }
+
+      .cart-trigger { position: relative; }
+
+      .cart-trigger > span {
+        position: absolute;
+        top: 1px;
+        right: 0;
+        min-width: 16px;
+        height: 16px;
+        padding: 0 4px;
+        display: grid;
+        place-items: center;
+        border: 2px solid var(--white);
+        border-radius: 20px;
+        background: var(--red);
+        color: var(--white);
+        font-size: 8px;
+        font-weight: 700;
+      }
+
+      .header-search {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: clamp(18px, 4vw, 64px);
+        width: min(500px, calc(100vw - 36px));
+        padding: 8px 10px 8px 18px;
+        display: none;
+        align-items: center;
+        gap: 12px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--white);
+        box-shadow: 0 18px 60px rgba(20, 22, 20, 0.13);
+      }
+
+      .header-search.active { display: flex; }
+      .header-search input { flex: 1; border: 0; outline: none; background: transparent; }
+
+      main { padding: 0 clamp(12px, 2.4vw, 36px); }
+
+      .hero {
+        min-height: min(610px, calc(100vh - 140px));
+        max-width: 1500px;
+        margin: 18px auto 0;
+        padding: clamp(42px, 6vw, 88px);
+        position: relative;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 32px;
+        background: #e9e9e5;
+      }
+
+      .hero-copy { width: 51%; position: relative; z-index: 3; }
+
+      .eyebrow {
+        display: block;
+        margin-bottom: 18px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(55px, 7.2vw, 114px);
+        font-weight: 800;
+        line-height: 0.84;
+        text-transform: uppercase;
+      }
+
+      .hero h1 em { color: var(--red); font-style: normal; }
+
+      .hero-copy > p {
+        max-width: 460px;
+        margin: 30px 0;
+        color: #555855;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .primary-button {
+        width: max-content;
+        min-height: 52px;
+        padding: 0 22px 0 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        border-radius: 30px;
+        background: var(--red);
+        color: var(--white);
+        font-size: 13px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+      }
+
+      .hero-word {
+        position: absolute;
+        left: 38%;
+        top: 50%;
+        z-index: 0;
+        color: transparent;
+        font-family: "Manrope", sans-serif;
+        font-size: 180px;
+        font-weight: 800;
+        -webkit-text-stroke: 1px rgba(17, 18, 17, 0.07);
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+
+      .hero-visual { position: absolute; inset: 0 0 0 49%; z-index: 2; }
+
+      .hero-image-wrap {
+        width: 69%;
+        height: 84%;
+        position: absolute;
+        left: 15%;
+        top: 8%;
+        overflow: hidden;
+        border-radius: 45% 45% 42% 42%;
+        transform: rotate(4deg);
+        box-shadow: 0 40px 80px rgba(25, 24, 22, 0.16);
+      }
+
+      .hero-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+      .floating-label {
+        padding: 11px 16px;
+        position: absolute;
+        border: 1px solid rgba(255, 255, 255, 0.75);
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .label-top { top: 20%; right: 9%; }
+      .label-bottom { left: 4%; bottom: 18%; }
+
+      .benefits {
+        max-width: 1350px;
+        margin: 0 auto;
+        padding: 34px 10px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .benefits article {
+        padding: 5px 30px;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid var(--line);
+      }
+
+      .benefits article:last-child { border: 0; }
+      .benefits strong { font-family: "Manrope", sans-serif; font-size: 13px; }
+      .benefits span { color: var(--muted); font-size: 11px; }
+
+      .section { max-width: 1350px; margin: 0 auto; padding-top: 110px; }
+
+      .section-heading {
+        margin-bottom: 36px;
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(34px, 4vw, 58px);
+      }
+
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 345px 285px;
+        gap: 16px;
+      }
+
+      .category-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--radius);
+        isolation: isolate;
+      }
+
+      .category-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(100deg, rgba(0, 0, 0, 0.4), transparent 70%);
+      }
+
+      .category-card img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .category-card:hover img { transform: scale(1.05); }
+
+      .category-copy {
+        height: 100%;
+        padding: 35px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        color: var(--white);
+      }
+
+      .category-copy h3 {
+        margin: 6px 0 0;
+        font-family: "Manrope", sans-serif;
+        font-size: 36px;
+        line-height: 1;
+      }
+
+      .category-copy button {
+        margin-top: auto;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .headphones-card { grid-column: span 5; }
+      .watch-card { grid-column: span 3; }
+      .laptop-card { grid-column: span 4; }
+      .console-card { grid-column: span 5; }
+      .vr-card { grid-column: span 4; }
+      .speaker-card { grid-column: span 3; }
+
+      .product-toolbar {
+        margin-bottom: 28px;
+        padding: 16px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .filter-pills { display: flex; gap: 8px; }
+
+      .filter-pills button {
+        padding: 9px 15px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: var(--white);
+        font-size: 11px;
+      }
+
+      .filter-pills button.active {
+        background: var(--ink);
+        color: var(--white);
+        border-color: var(--ink);
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+
+      .product-card {
+        border-radius: 22px;
+        background: var(--white);
+        overflow: hidden;
+        border: 1px solid #f0f0ed;
+      }
+
+      .product-image {
+        height: 260px;
+        position: relative;
+        overflow: hidden;
+        background: var(--paper);
+      }
+
+      .product-image img { width: 100%; height: 100%; object-fit: cover; }
+
+      .discount {
+        padding: 6px 8px;
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        border-radius: 8px;
+        background: var(--red);
+        color: var(--white);
+        font-size: 9px;
+        font-weight: 700;
+      }
+
+      .product-info { padding: 18px; }
+      .product-category { color: var(--muted); font-size: 9px; font-weight: 700; text-transform: uppercase; }
+      .product-info h3 { margin: 6px 0; font-family: "Manrope", sans-serif; font-size: 16px; }
+
+      .product-buy {
+        margin-top: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .price strong { font-family: "Manrope", sans-serif; font-size: 18px; }
+
+      .product-buy button {
+        width: 40px;
+        height: 40px;
+        border: 0;
+        border-radius: 50%;
+        background: var(--ink);
+        color: var(--white);
+        display: grid;
+        place-items: center;
+        font-size: 18px;
+      }
+
+      .product-buy button:hover { background: var(--red); }
+
+      .manifesto {
+        margin-top: 100px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-radius: 32px;
+        background: var(--ink);
+        color: var(--white);
+        overflow: hidden;
+      }
+
+      .manifesto-image img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+      .manifesto-copy { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
+
+      .newsletter {
+        margin: 100px 0;
+        padding: 60px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        border-radius: 32px;
+        background: var(--yellow);
+      }
+
+      .newsletter form {
+        display: flex;
+        padding: 6px 6px 6px 20px;
+        border-radius: 40px;
+        background: var(--white);
+      }
+
+      .newsletter input { flex: 1; border: 0; outline: none; }
+      .newsletter button { width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--ink); color: var(--white); }
+
+      footer { padding: 60px; background: var(--ink); color: var(--white); }
+      .footer-main { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 40px; }
+
+      /* Estilização Exata do Carrinho / Sacola (Figma) */
+      .drawer-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        display: none;
+        background: rgba(0, 0, 0, 0.48);
+        backdrop-filter: blur(3px);
+        transition: opacity 0.3s ease;
+      }
+      .drawer-backdrop.visible { display: block; }
+
+      .cart-drawer {
+        width: min(480px, 100%);
+        position: fixed;
+        top: 0; right: 0; bottom: 0;
+        z-index: 90;
+        background: var(--white);
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.25, 0.7, 0.25, 1);
+        display: flex;
+        flex-direction: column;
+        box-shadow: -15px 0 40px rgba(0,0,0,0.15);
+      }
+      .cart-drawer.open { transform: translateX(0); }
+
+      .cart-header {
+        padding: 28px 28px 20px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--line);
+      }
+      .cart-header .eyebrow { color: var(--red); font-size: 9px; margin-bottom: 6px; letter-spacing: 0.1em; }
+      .cart-header h2 { margin: 0; font-family: "Manrope", sans-serif; font-size: 28px; letter-spacing: -0.04em; }
+      .cart-header h2 small { color: var(--muted); font-size: 14px; font-weight: 500; }
+      .close-cart-btn {
+        width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent;
+        display: grid; place-items: center; cursor: pointer; transition: background 0.2s;
+      }
+      .close-cart-btn:hover { background: var(--paper); }
+
+      .free-shipping {
+        padding: 16px 28px;
+        background: var(--paper);
+        border-bottom: 1px solid var(--line);
+      }
+      .free-shipping p { margin: 0 0 10px; color: #565956; font-size: 11px; }
+      .progress-bar-bg { height: 4px; border-radius: 5px; background: #d7d8d4; overflow: hidden; }
+      .progress-bar-fill { height: 100%; background: var(--green); width: 0%; transition: width 0.3s ease; }
+
+      .cart-items {
+        flex: 1;
+        padding: 10px 28px;
+        overflow-y: auto;
+      }
+
+      .cart-item {
+        padding: 18px 0;
+        position: relative;
+        display: grid;
+        grid-template-columns: 95px 1fr;
+        gap: 16px;
+        border-bottom: 1px solid var(--line);
+        align-items: center;
+      }
+
+      .cart-item-image {
+        height: 100px;
+        border-radius: 14px;
+        overflow: hidden;
+        background: var(--paper);
+      }
+      .cart-item-image img { width: 100%; height: 100%; object-fit: cover; }
+
+      .cart-item-info span { color: var(--muted); font-size: 8px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 4px; }
+      .cart-item-info h4 { margin: 0 0 6px; font-family: "Manrope", sans-serif; font-size: 15px; }
+      .cart-item-info strong { font-size: 13px; display: block; margin-bottom: 10px; font-family: "Manrope", sans-serif; }
+
+      .quantity-controls {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .quantity-controls button {
+        width: 30px; height: 28px; border: 0; background: transparent; display: grid; place-items: center; cursor: pointer; font-size: 13px;
+      }
+      .quantity-controls button:hover { background: var(--paper); }
+      .quantity-controls span { padding: 0 6px; font-size: 11px; font-weight: 700; color: var(--ink); }
+
+      .remove-item-btn {
+        position: absolute;
+        top: 18px; right: 0;
+        border: 0; background: transparent; color: #959895; cursor: pointer;
+        padding: 4px;
+      }
+      .remove-item-btn:hover { color: var(--red); }
+
+      .empty-cart {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px 20px;
+      }
+      .empty-cart-icon {
+        width: 66px; height: 66px; border-radius: 50%; background: var(--paper);
+        display: grid; place-items: center; margin-bottom: 16px; color: var(--ink);
+      }
+      .empty-cart h3 { margin: 0 0 6px; font-family: "Manrope", sans-serif; font-size: 18px; }
+      .empty-cart p { color: var(--muted); font-size: 11px; max-width: 250px; margin: 0 0 20px; line-height: 1.5; }
+      .empty-cart button { padding: 12px 20px; border: 0; border-radius: 25px; background: var(--ink); color: var(--white); font-size: 11px; font-weight: 600; cursor: pointer; }
+
+      .cart-summary {
+        padding: 22px 28px 25px;
+        border-top: 1px solid var(--line);
+        background: var(--white);
+        box-shadow: 0 -15px 40px rgba(20, 22, 20, 0.04);
+      }
+      .cart-summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .cart-summary-row.total {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        color: var(--ink);
+        font-size: 15px;
+        font-family: "Manrope", sans-serif;
+      }
+      .cart-summary-row.total strong { font-size: 22px; }
+      .checkout-btn {
+        width: 100%;
+        min-height: 52px;
+        margin-top: 12px;
+        border-radius: 28px;
+        background: var(--red);
+        color: var(--white);
+        border: 0;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .checkout-btn:hover { transform: translateY(-2px); }
+      .cart-summary small { display: block; text-align: center; color: #979a97; font-size: 8px; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 25px;
+        transform: translate(-50%, 100px);
+        padding: 12px 20px;
+        border-radius: 30px;
+        background: var(--ink);
+        color: var(--white);
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        opacity: 0;
+        z-index: 100;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .toast.show { transform: translate(-50%, 0); opacity: 1; }
+      .toast span { width: 18px; height: 18px; background: var(--green); border-radius: 50%; display: grid; place-items: center; font-size: 10px; color: #fff; }
+
+      @media (max-width: 820px) {
+        .category-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+        .category-card { grid-column: span 1 !important; height: 260px; }
+        .product-grid { grid-template-columns: repeat(2, 1fr); }
+        .manifesto, .newsletter { grid-template-columns: 1fr; }
+        .footer-main { grid-template-columns: 1fr; }
+        .hero-copy { width: 100%; }
+        .hero-visual { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="announcement">
+      <span>Frete grátis acima de R$ 499</span>
+      <span class="announcement-center">Tecnologia para ir além.</span>
+      <span>10% OFF no PIX</span>
+    </div>
+
+    <header class="site-header">
+      <a href="#" class="logo">VOLTEX<span>.</span></a>
+      <nav class="desktop-nav">
+        <a href="#inicio">Início</a>
+        <a href="#produtos">Loja</a>
+        <a href="#categorias">Categorias</a>
+        <a href="#sobre">Sobre nós</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button" onclick="toggleSearch()"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+        <button class="icon-button cart-trigger" onclick="toggleCart()">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+          <span id="cartCount">0</span>
+        </button>
+      </div>
+
+      <div class="header-search" id="searchBar">
+        <input type="text" placeholder="O que você procura?" />
+        <button onclick="toggleSearch()" style="border:0; background:none;">✕</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="hero-copy">
+          <span class="eyebrow">Nova coleção 2026</span>
+          <h1>Áudio sem<br /><em>limites.</em></h1>
+          <p>Som imersivo, design preciso e liberdade sem fios. Escute cada detalhe do seu jeito.</p>
+          <a href="#produtos" class="primary-button">Explorar produtos →</a>
+        </div>
+        <div class="hero-word">SOUND</div>
+        <div class="hero-visual">
+          <div class="hero-image-wrap">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=90" alt="Fone Vermelho" />
+          </div>
+          <span class="floating-label label-top">40h de bateria</span>
+          <span class="floating-label label-bottom">Áudio espacial 360°</span>
+        </div>
+      </section>
+
+      <section class="benefits">
+        <article><strong>Frete grátis</strong><span>Acima de R$ 499</span></article>
+        <article><strong>Compra protegida</strong><span>Pagamento 100% seguro</span></article>
+        <article><strong>Troca fácil</strong><span>Até 30 dias</span></article>
+        <article><strong>Suporte humano</strong><span>Atendimento diário</span></article>
+      </section>
+
+      <section class="section" id="categorias">
+        <div class="section-heading">
+          <h2>Explore por categoria</h2>
+        </div>
+        <div class="category-grid">
+          <div class="category-card headphones-card">
+            <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85" alt="Fones" />
+            <div class="category-copy">
+              <span>Som Premium</span>
+              <h3>Fones de Ouvido</h3>
+              <button>Explorar →</button>
+            </div>
+          </div>
+          <div class="category-card watch-card">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=85" alt="Relógio" />
+            <div class="category-copy">
+              <span>Seu Ritmo</span>
+              <h3>Smartwatches</h3>
+              <button>Explorar →</button>
+            </div>
+          </div>
+          <div class="category-card laptop-card">
+            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=85" alt="Notebook" />
+            <div class="category-copy">
+              <span>Potência</span>
+              <h3>Notebooks</h3>
+              <button>Explorar →</button>
+            </div>
+          </div>
+          <div class="category-card console-card">
+            <img src="https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?auto=format&fit=crop&w=1200&q=85" alt="Controle" />
+            <div class="category-copy">
+              <span>Entre no Jogo</span>
+              <h3>Consoles</h3>
+              <button>Explorar →</button>
+            </div>
+          </div>
+          <div class="category-card vr-card">
+            <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?auto=format&fit=crop&w=1200&q=85" alt="VR" />
+            <div class="category-copy">
+              <span>Imersão</span>
+              <h3>VR Gaming</h3>
+              <button>Explorar →</button>
+            </div>
+          </div>
+          <div class="category-card speaker-card">
+            <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1000&q=85" alt="Earbuds" />
+            <div class="category-copy">
+              <span>Som Portátil</span>
+              <h3>Earbuds</h3>
+              <button>Explorar →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="produtos">
+        <div class="section-heading">
+          <h2>Produtos em Destaque</h2>
+        </div>
+        <div class="product-toolbar">
+          <div class="filter-pills">
+            <button class="active">Todos</button>
+            <button>Áudio</button>
+            <button>Wearables</button>
+            <button>Computadores</button>
+          </div>
+        </div>
+        <div class="product-grid">
+          <article class="product-card">
+            <div class="product-image">
+              <span class="discount">-25%</span>
+              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=90" alt="Voltex Air Pro" />
+            </div>
+            <div class="product-info">
+              <span class="product-category">Áudio</span>
+              <h3>Voltex Air Pro</h3>
+              <div class="product-buy">
+                <div class="price"><strong>R$ 899,90</strong></div>
+                <button onclick="addToCart('Voltex Air Pro', 899.90, 'Áudio', 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=90')">+</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=85" alt="Pulse Watch S2" />
+            </div>
+            <div class="product-info">
+              <span class="product-category">Wearables</span>
+              <h3>Pulse Watch S2</h3>
+              <div class="product-buy">
+                <div class="price"><strong>R$ 749,90</strong></div>
+                <button onclick="addToCart('Pulse Watch S2', 749.90, 'Wearables', 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=85')">+</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <span class="discount">-10%</span>
+              <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=85" alt="AeroBook 14" />
+            </div>
+            <div class="product-info">
+              <span class="product-category">Computadores</span>
+              <h3>AeroBook 14</h3>
+              <div class="product-buy">
+                <div class="price"><strong>R$ 4.899,90</strong></div>
+                <button onclick="addToCart('AeroBook 14', 4899.90, 'Computadores', 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=85')">+</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?auto=format&fit=crop&w=1200&q=85" alt="Nexus Console One" />
+            </div>
+            <div class="product-info">
+              <span class="product-category">Consoles</span>
+              <h3>Nexus Console One</h3>
+              <div class="product-buy">
+                <div class="price"><strong>R$ 3.899,90</strong></div>
+                <button onclick="addToCart('Nexus Console One', 3899.90, 'Consoles', 'https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?auto=format&fit=crop&w=1200&q=85')">+</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="manifesto" id="sobre">
+        <div class="manifesto-image">
+          <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=85" alt="Setup Tech" />
+        </div>
+        <div class="manifesto-copy">
+          <span class="eyebrow">Propósito</span>
+          <h2>Feita para acompanhar o seu ritmo.</h2>
+          <p>Design e desempenho caminham juntos na VOLTEX. Selecionamos tecnologia intuitiva e pronta para elevar seu dia a dia.</p>
+        </div>
+      </section>
+
+      <section class="newsletter">
+        <div>
+          <h2>Fique por dentro das novidades.</h2>
+          <p>Assine para receber ofertas exclusivas direto na caixa de entrada.</p>
+        </div>
+        <form onsubmit="event.preventDefault(); showToast('Inscrição confirmada!');">
+          <input type="email" placeholder="Seu melhor e-mail" required />
+          <button type="submit">→</button>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-main">
+        <div>
+          <a href="#" class="logo" style="color:white;">VOLTEX<span>.</span></a>
+          <p>Tecnologia premium simples de escolher.</p>
+        </div>
+        <div>
+          <h4>Institucional</h4>
+          <p>Sobre nós</p>
+          <p>Privacidade</p>
+        </div>
+        <div>
+          <h4>Atendimento</h4>
+          <p>Central de Ajuda</p>
+          <p>Garantia</p>
+        </div>
+        <div>
+          <h4>Contato</h4>
+          <p>atendimento@voltex.com.br</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Gaveta do Carrinho -->
+    <div class="drawer-backdrop" id="backdrop" onclick="toggleCart()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+      <div class="cart-header">
+        <div>
+          <span class="eyebrow">Sua Seleção</span>
+          <h2>Carrinho <small id="cartHeaderCount">(0)</small></h2>
+        </div>
+        <button class="close-cart-btn" onclick="toggleCart()">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="free-shipping">
+        <p id="shippingMessage">Faltam <strong>R$ 499,00</strong> para frete grátis.</p>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="shippingProgressBar"></div>
+        </div>
+      </div>
+
+      <div class="cart-items" id="cartContent">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+
+      <div class="cart-summary" id="cartSummarySection" style="display: none;">
+        <div class="cart-summary-row">
+          <span>Subtotal</span>
+          <strong id="cartSubtotal">R$ 0,00</strong>
+        </div>
+        <div class="cart-summary-row">
+          <span>Entrega</span>
+          <strong id="cartShippingText">R$ 0,00</strong>
+        </div>
+        <div class="cart-summary-row total">
+          <span>Total</span>
+          <strong id="cartTotal">R$ 0,00</strong>
+        </div>
+        <button class="checkout-btn" onclick="alert('Indo para o checkout seguro...')">
+          Finalizar compra 
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <small>Ambiente demonstrativo. Nenhuma cobrança será feita.</small>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"><span>✓</span>Item adicionado!</div>
+
+    <script>
+      let cart = [];
+
+      function toggleSearch() {
+        document.getElementById('searchBar').classList.toggle('active');
+      }
+
+      function toggleCart() {
+        document.getElementById('cartDrawer').classList.toggle('open');
+        document.getElementById('backdrop').classList.toggle('visible');
+      }
+
+      function addToCart(name, price, category, image) {
+        const existingItem = cart.find(item => item.name === name);
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cart.push({ name, price, category, image, quantity: 1 });
+        }
+        updateCartUI();
+        showToast(`${name} adicionado à sacola!`);
+      }
+
+      function changeQuantity(index, delta) {
+        cart[index].quantity += delta;
+        if (cart[index].quantity <= 0) {
+          cart.splice(index, 1);
+        }
+        updateCartUI();
+      }
+
+      function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+      }
+
+      function updateCartUI() {
+        const cartCountEl = document.getElementById('cartCount');
+        const cartHeaderCountEl = document.getElementById('cartHeaderCount');
+        const cartContentEl = document.getElementById('cartContent');
+        const cartSummarySection = document.getElementById('cartSummarySection');
+        const shippingMessage = document.getElementById('shippingMessage');
+        const shippingProgressBar = document.getElementById('shippingProgressBar');
+        
+        const totalItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCountEl.innerText = totalItemsCount;
+        cartHeaderCountEl.innerText = `(${totalItemsCount})`;
+
+        if (cart.length === 0) {
+          cartContentEl.innerHTML = `
+            <div class="empty-cart">
+              <div class="empty-cart-icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+              </div>
+              <h3>Seu carrinho está vazio</h3>
+              <p>Explore nossos destaques e encontre seu próximo favorito.</p>
+              <button onclick="toggleCart(); document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">Explorar produtos</button>
+            </div>
+          `;
+          cartSummarySection.style.display = 'none';
+          shippingMessage.innerHTML = 'Faltam <strong>R$ 499,00</strong> para frete grátis.';
+          shippingProgressBar.style.width = '0%';
+          return;
+        }
+
+        cartSummarySection.style.display = 'block';
+
+        let html = '';
+        let subtotal = 0;
+
+        cart.forEach((item, index) => {
+          subtotal += item.price * item.quantity;
+          html += `
+            <div class="cart-item">
+              <div class="cart-item-image">
+                <img src="${item.image}" alt="${item.name}" />
+              </div>
+              <div class="cart-item-info">
+                <span>${item.category}</span>
+                <h4>${item.name}</h4>
+                <strong>R$ ${(item.price * item.quantity).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</strong>
+                <div class="quantity-controls">
+                  <button onclick="changeQuantity(${index}, -1)">−</button>
+                  <span>${item.quantity}</span>
+                  <button onclick="changeQuantity(${index}, 1)">+</button>
+                </div>
+              </div>
+              <button class="remove-item-btn" onclick="removeFromCart(${index})" aria-label="Remover item">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          `;
+        });
+
+        cartContentEl.innerHTML = html;
+
+        // Cálculo de Frete Grátis (Meta: R$ 499,00)
+        const goal = 499;
+        const progress = Math.min((subtotal / goal) * 100, 100);
+        shippingProgressBar.style.width = `${progress}%`;
+
+        if (subtotal >= goal) {
+          shippingMessage.innerHTML = 'Você ganhou frete grátis.';
+          document.getElementById('cartShippingText').innerText = 'Grátis';
+        } else {
+          const missing = goal - subtotal;
+          shippingMessage.innerHTML = `Faltam <strong>R$ ${missing.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</strong> para frete grátis.`;
+          document.getElementById('cartShippingText').innerText = 'R$ 29,90';
+        }
+
+        document.getElementById('cartSubtotal').innerText = `R$ ${subtotal.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+        
+        const finalTotal = subtotal >= goal ? subtotal : subtotal + 29.90;
+        document.getElementById('cartTotal').innerText = `R$ ${finalTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.innerHTML = `<span>✓</span> ${msg}`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+
+      // Inicializa o estado vazio da sacola ao carregar
+      updateCartUI();
+    </script>
+  </body>
+</html>

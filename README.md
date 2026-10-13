@@ -1,2 +1,0 @@
-# Voltex
-Loja virtual voltex
